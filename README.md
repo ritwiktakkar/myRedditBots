@@ -7,3 +7,4 @@ This Reddit bot will ultimately:
 3. while reading the user's comment, it will search for all the profanities in it
 4. it will then replace each of the profanities with "(profanity)" 
 5. after doing so, it will reply to the comment with its censored version
+-- steps may be added here --
