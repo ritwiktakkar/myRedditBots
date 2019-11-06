@@ -15,19 +15,26 @@ def bot_login():
 	print("Logged in!")
 	return r
 
-# this method tells the bot what to do as it runs
-def run_bot(r):
-	for comments in r.subreddit('botTesting123456').comments(limit=5):
-		if "stupid" in comments.body:
-			print("String found in comment id: "+comments.id)
-			comments.reply("hey i found a string saying \"stupid\" in the comments of this post")
-			comments.reply("im stupid because i will keep replying to this comment over and over again\nbecause that's how im programmed :(")
-			comments.reply("phew... i need to sleep for 10 seconds...")
-	print("im stupid because i will keep replying to this comment over and over again\nbecause that's how im programmed :(")
-	print("phew... i need to sleep for 10 seconds...")
-	time.sleep(10)
+# add profanities to list called "profanities"
+def listOfProfanities():
+	with open('profanity_list.txt', 'r') as f:
+		profanities = [line.strip() for line in f]
 
-# run this bot forever
-while True:
-	r = bot_login()
-	run_bot(r)
+
+
+# # this method tells the bot what to do as it runs
+# def run_bot(r):
+# 	for comments in r.subreddit('botTesting123456').comments(limit=5):
+# 		if "stupid" in comments.body:
+# 			print("String found in comment id: "+comments.id)
+# 			comments.reply("hey i found a string saying \"stupid\" in the comments of this post")
+# 			comments.reply("im stupid because i will keep replying to this comment over and over again\nbecause that's how im programmed :(")
+# 			comments.reply("phew... i need to sleep for 10 seconds...")
+# 	print("im stupid because i will keep replying to this comment over and over again\nbecause that's how im programmed :(")
+# 	print("phew... i need to sleep for 10 seconds...")
+# 	time.sleep(10)
+
+# # run this bot forever
+# while True:
+# 	r = bot_login()
+# 	run_bot(r)
