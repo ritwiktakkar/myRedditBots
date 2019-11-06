@@ -1,6 +1,9 @@
 # config files containing credentials for scripts
 /config*.py
 
+# list of profanities this bot censors
+profanity*.txt
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
