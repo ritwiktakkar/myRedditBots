@@ -4,6 +4,10 @@ import time
 
 config = configForBot1
 
+# making the list of profanities' scope global 
+with open('profanity_list.txt', 'r') as f:
+	profanity_list = [line.strip() for line in f]
+
 # this method logs the bot in 
 def bot_login():
 	print("Logging in...")
@@ -15,10 +19,8 @@ def bot_login():
 	print("Logged in!")
 	return r
 
-# add profanities to list called "profanities"
-def listOfProfanities():
-	with open('profanity_list.txt', 'r') as f:
-		profanities = [line.strip() for line in f]
+
+
 
 
 
