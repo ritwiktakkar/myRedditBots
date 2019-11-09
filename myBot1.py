@@ -1,6 +1,6 @@
 import praw
 import configForBot1   # credentials for this bot -- file not visible on GitHub
-import time
+import time 
 
 config = configForBot1
 
@@ -19,24 +19,22 @@ def bot_login():
 	print("Logged in!")
 	return r
 
+# function that retrieves the comment that summoned the bot
+def censor_comment(r):
+	for comments in r.subreddit('botTesting123456').comments(limit=10):
+		if 'censor-this!' in comments.body:
+			uncensoredComment = comments.body
+			print(uncensoredComment)
+			wordsInUC = uncensoredComment.split()
 
 
+			#print(wordsInUC)
+			#wordsInCC = []
+			#censoredComment = ' '.join(wordsInCC)
+			#print('Here is a censored version of the comment:\n'+censoredComment)
+	print('sleeping for 10 secs')
+	time.sleep(10)	
 
-
-
-# # this method tells the bot what to do as it runs
-# def run_bot(r):
-# 	for comments in r.subreddit('botTesting123456').comments(limit=5):
-# 		if "stupid" in comments.body:
-# 			print("String found in comment id: "+comments.id)
-# 			comments.reply("hey i found a string saying \"stupid\" in the comments of this post")
-# 			comments.reply("im stupid because i will keep replying to this comment over and over again\nbecause that's how im programmed :(")
-# 			comments.reply("phew... i need to sleep for 10 seconds...")
-# 	print("im stupid because i will keep replying to this comment over and over again\nbecause that's how im programmed :(")
-# 	print("phew... i need to sleep for 10 seconds...")
-# 	time.sleep(10)
-
-# # run this bot forever
-# while True:
-# 	r = bot_login()
-# 	run_bot(r)
+while True:
+	r = bot_login()
+	censor_comment(r)
