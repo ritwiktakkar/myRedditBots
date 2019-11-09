@@ -1,8 +1,8 @@
 import praw
-import configForBot1   # credentials for this bot -- file not visible on GitHub
+import configForTCB   # credentials for this bot -- file not visible on GitHub
 import time 
 
-config = configForBot1
+config = configForTCB
 
 # making the list of profanities' scope global 
 with open('profanity_list.txt', 'r') as f:
