@@ -1,6 +1,6 @@
 # myRedditBot
 
-## What this bot does / will do
+## What theCensoringBot bot does / will do
 This Reddit bot will ultimately:
 1. [ ] wait to be called by a user
 2. [ ] when called, it will read the user's comment
