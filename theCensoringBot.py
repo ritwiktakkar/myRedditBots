@@ -19,19 +19,43 @@ def bot_login():
 	print("Logged in!")
 	return r
 
+def splitSpecialChars(word):
+	# checks word
+	# if word starts/ends with special char and 
+		# 1) is profanity: returns profanity without special chars
+		# 2) isn't profanity: returns word without change
+	orig_word = word
+	for letter in word:
+		if (letter.isalpha() == False):
+			word = word.strip(letter)
+	if word in profanity_list:
+		return word
+	else:
+		return orig_word
+
+def findAndReplace(word):
+	if word in profanity_list:
+		word = '(profanity)'
+	return word
+
 # function that retrieves the comment that summoned the bot
 def censor_comment(r):
 	for comments in r.subreddit('botTesting123456').comments(limit=10):
 		if 'censor-this!' in comments.body:
-			uncensoredComment = comments.body
-			print(uncensoredComment)
-			wordsInUC = uncensoredComment.split()
-
-
-			#print(wordsInUC)
-			#wordsInCC = []
-			#censoredComment = ' '.join(wordsInCC)
-			#print('Here is a censored version of the comment:\n'+censoredComment)
+			uncensoredComment = comments.body # this string is the uncensored comment that called the bot
+			print("here is the uncensored comment:\n"+uncensoredComment) 
+			wordsInUC_unrev = uncensoredComment.split() # puts each word in UC into a list
+			wordsInUC_unrev2 = []
+			wordsInCC = []
+			for words in wordsInUC_unrev:
+				words = splitSpecialChars(words)
+				wordsInUC_unrev2.append(words)
+			for words in wordsInUC_unrev2:
+				words = findAndReplace(words)
+				wordsInCC.append(words)
+			censoredComment = ' '.join(wordsInCC)
+			censoredComment = censoredComment.replace('censor-this!','')
+			print('Here is a censored version of the comment:\n'+censoredComment)
 	print('sleeping for 10 secs')
 	time.sleep(10)	
 
