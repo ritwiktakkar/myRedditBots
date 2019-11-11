@@ -7,3 +7,4 @@ This Reddit bot will ultimately:
 3. [x] while reading the user's comment, it will search for all the profanities in it
 4. [x] it will then replace each of the profanities with "(profanity)" :arrow_right: this will be the censored comment
 5. [x] after doing so, it will reply to the caller's comment with the censored comment
+6. [ ] when waiting to be called, it will make sure not to reply to comments that contain the keyword that calls it if it has already done so
