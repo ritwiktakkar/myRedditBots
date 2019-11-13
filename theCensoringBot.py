@@ -65,8 +65,8 @@ def censor_comment(r, comments_replied_to):
 				if words == '(profanity)':
 					count += 1
 			censoredComment = ' '.join(wordsInCC)
-			comments.reply('I found ' + str(count) + ' profanities in the comment.\n' + 
-				  'Here is a censored version of the comment:\n'
+			comments.reply('I found ' + str(count) + ' profanities in the comment.\n\n' + 
+				  'Here is a censored version of the comment:\n\n'
 				  + censoredComment)
 			print('Replied to comment id: '+comments.id)
 			comments_replied_to.append(comments.id)
