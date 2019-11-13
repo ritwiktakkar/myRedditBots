@@ -39,9 +39,9 @@ def findAndReplace(word):
 	return word
 
 # function that retrieves the comment that summoned the bot
-def censor_comment(r):
+def censor_comment(r, comments_replied_to):
 	for comments in r.subreddit('botTesting123456').comments(limit=10):
-		if 'censor-this!' in comments.body:
+		if 'censor-this!' in comments.body and comments.id not in comments_replied_to:
 			uncensoredComment = comments.body # this string is the uncensored comment that called the bot
 			print("here is the uncensored comment:\n"+uncensoredComment) 
 			wordsInUC_unrev = uncensoredComment.split() # puts each word in UC into a list
@@ -62,9 +62,16 @@ def censor_comment(r):
 			print('I found ' + str(count) + ' profanities in the comment.\n' + 
 				  'Here is a censored version of the comment:\n'
 				  + censoredComment)
-	print('sleeping for 10 secs')
-	time.sleep(10)	
+			print('Replied to comment id: '+comments.id)
+			comments_replied_to.append(comments.id)
+
+	print('sleeping for 4 secs')
+	time.sleep(4)	
+
+
+r = bot_login()
+
+comments_replied_to = [] # creating empty lists to store comments that have already been replied to 
 
 while True:
-	r = bot_login()
-	censor_comment(r)
+	censor_comment(r, comments_replied_to)
