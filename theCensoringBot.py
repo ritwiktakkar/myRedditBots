@@ -53,9 +53,15 @@ def censor_comment(r):
 			for words in wordsInUC_unrev2:
 				words = findAndReplace(words)
 				wordsInCC.append(words)
+			count = 0
+			for words in wordsInCC:
+				if words == '(profanity)':
+					count += 1
 			censoredComment = ' '.join(wordsInCC)
 			censoredComment = censoredComment.replace('censor-this!','')
-			print('Here is a censored version of the comment:\n'+censoredComment)
+			print('I found ' + str(count) + ' profanities in the comment.\n' + 
+				  'Here is a censored version of the comment:\n'
+				  + censoredComment)
 	print('sleeping for 10 secs')
 	time.sleep(10)	
 
