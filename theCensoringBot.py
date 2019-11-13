@@ -38,10 +38,15 @@ def findAndReplace(word):
 		word = '(profanity)'
 	return word
 
+def get_saved_comments():
+	with open("comments_replied_to.txt", "r") as f:
+		comments_replied_to = f.read()
+		comments_replied_to = comments_replied_to.split(\n)
+
 # function that retrieves the comment that summoned the bot
 def censor_comment(r, comments_replied_to):
 	for comments in r.subreddit('botTesting123456').comments(limit=10):
-		if 'censor-this!' in comments.body and comments.id not in comments_replied_to:
+		if 'censor-this!' in comments.body and comments.id not in comments_replied_to and comments.author != r.user.me():
 			uncensoredComment = comments.body # this string is the uncensored comment that called the bot
 			print("here is the uncensored comment:\n"+uncensoredComment) 
 			wordsInUC_unrev = uncensoredComment.split() # puts each word in UC into a list
@@ -58,7 +63,6 @@ def censor_comment(r, comments_replied_to):
 				if words == '(profanity)':
 					count += 1
 			censoredComment = ' '.join(wordsInCC)
-			censoredComment = censoredComment.replace('censor-this!','')
 			print('I found ' + str(count) + ' profanities in the comment.\n' + 
 				  'Here is a censored version of the comment:\n'
 				  + censoredComment)

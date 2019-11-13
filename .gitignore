@@ -1,3 +1,6 @@
+# text file containing comment ids of comments that bot replied to
+comment*.txt 
+
 # config files containing credentials for scripts
 /config*.py
 
