@@ -34,7 +34,7 @@ def splitSpecialChars(word):
 		return orig_word
 
 def findAndReplace(word):
-	if word in profanity_list:
+	if word.lower() in profanity_list:
 		word = '(profanity)'
 	return word
 
@@ -42,7 +42,7 @@ def get_saved_comments():
 	with open("comments_replied_to.txt", "r") as f:
 		comments_replied_to = f.read()
 		comments_replied_to = comments_replied_to.split('\n')
-		comments_replied_to = filter(None, comments_replied_to)
+		comments_replied_to = list(filter(None, comments_replied_to))
 	return comments_replied_to
 
 # function that retrieves the comment that summoned the bot
@@ -65,7 +65,7 @@ def censor_comment(r, comments_replied_to):
 				if words == '(profanity)':
 					count += 1
 			censoredComment = ' '.join(wordsInCC)
-			print('I found ' + str(count) + ' profanities in the comment.\n' + 
+			comments.reply('I found ' + str(count) + ' profanities in the comment.\n' + 
 				  'Here is a censored version of the comment:\n'
 				  + censoredComment)
 			print('Replied to comment id: '+comments.id)
@@ -79,7 +79,8 @@ def censor_comment(r, comments_replied_to):
 
 r = bot_login()
 
-comments_replied_to = get_saved_comments() # creating empty lists to store comments that have already been replied to 
+comments_replied_to = get_saved_comments()
+print(comments_replied_to)
 
 while True:
 	censor_comment(r, comments_replied_to)
