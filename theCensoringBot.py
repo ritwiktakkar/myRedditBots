@@ -41,7 +41,9 @@ def findAndReplace(word):
 def get_saved_comments():
 	with open("comments_replied_to.txt", "r") as f:
 		comments_replied_to = f.read()
-		comments_replied_to = comments_replied_to.split(\n)
+		comments_replied_to = comments_replied_to.split('\n')
+		comments_replied_to = filter(None, comments_replied_to)
+	return comments_replied_to
 
 # function that retrieves the comment that summoned the bot
 def censor_comment(r, comments_replied_to):
@@ -68,6 +70,8 @@ def censor_comment(r, comments_replied_to):
 				  + censoredComment)
 			print('Replied to comment id: '+comments.id)
 			comments_replied_to.append(comments.id)
+			with open("comments_replied_to.txt", "a") as f:
+				f.write(comments.id + '\n')
 
 	print('sleeping for 4 secs')
 	time.sleep(4)	
@@ -75,7 +79,7 @@ def censor_comment(r, comments_replied_to):
 
 r = bot_login()
 
-comments_replied_to = [] # creating empty lists to store comments that have already been replied to 
+comments_replied_to = get_saved_comments() # creating empty lists to store comments that have already been replied to 
 
 while True:
 	censor_comment(r, comments_replied_to)
