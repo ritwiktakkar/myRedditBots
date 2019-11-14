@@ -49,7 +49,9 @@ def get_saved_comments():
 def censor_comment(r, comments_replied_to):
 	for comments in r.subreddit('botTesting123456').comments(limit=10):
 		if 'censor-this!' in comments.body and comments.id not in comments_replied_to and comments.author != r.user.me():
-			uncensoredComment = comments.body # this string is the uncensored comment that called the bot
+			parentcomment = comments.parent()
+			parentname = comments.parent().author
+			uncensoredComment = parentcomment.body # this string is the uncensored comment that called the bot
 			print("here is the uncensored comment:\n"+uncensoredComment) 
 			wordsInUC_unrev = uncensoredComment.split() # puts each word in UC into a list
 			wordsInUC_unrev2 = []
@@ -66,9 +68,8 @@ def censor_comment(r, comments_replied_to):
 					count += 1
 			censoredComment = ' '.join(wordsInCC)
 
-			comments.reply('I am a bot, *bleep*, *bloop*. I found ' + str(count) + ' swear word(s) in the comment.\n\n' + 
-				  '**Here is a censored version of their comment:**\n\n'
-				  + censoredComment)
+			comments.reply('I am a bot, *bleep*, *bloop*. I found ' + str(count) + ' swear word(s) in /u/' + str(parentname)
+			                + '\'s comment.\n\n' + '**Here is a censored version of their comment:**\n\n' + censoredComment)
 
 			print('Replied to comment id: '+comments.id)
 			comments_replied_to.append(comments.id)
