@@ -11,11 +11,14 @@ with open('profanity_list.txt', 'r') as f:
 # this method logs the bot in 
 def bot_login():
 	print("Logging in...")
-	r = praw.Reddit(username = config.username,
-				password = config.password,
-				client_id = config.client_id,
-				client_secret = config.client_secret,
-				user_agent = "Im a bot that detects swear words and returns a censored version of the comment")
+	
+	r = praw.Reddit(
+		username = config.username,
+		password = config.password,
+		client_id = config.client_id,
+		client_secret = config.client_secret,
+		user_agent = "Im a bot that detects swear words and returns a censored version of the comment")
+	
 	print("Logged in!")
 	return r
 
@@ -47,12 +50,12 @@ def get_saved_comments():
 
 # function that retrieves the comment that summoned the bot
 def censor_comment(r, comments_replied_to):
-	for comments in r.subreddit('botTesting123456').comments(limit=10):
+	for comments in r.subreddit('botTesting123456').comments():
 		if 'censor-this!' in comments.body and comments.id not in comments_replied_to and comments.author != r.user.me():
 			parentcomment = comments.parent()
 			parentname = comments.parent().author
 			uncensoredComment = parentcomment.body # this string is the uncensored comment that called the bot
-			print("here is the uncensored comment:\n"+uncensoredComment) 
+			#print("here is the uncensored comment:\n"+uncensoredComment) 
 			wordsInUC_unrev = uncensoredComment.split() # puts each word in UC into a list
 			wordsInUC_unrev2 = []
 			wordsInCC = []
@@ -71,19 +74,20 @@ def censor_comment(r, comments_replied_to):
 			comments.reply('I am a bot, *bleep*, *bloop*. I found ' + str(count) + ' swear word(s) in /u/' + str(parentname)
 			                + '\'s comment.\n\n' + '**Here is a censored version of their comment:**\n\n' + censoredComment)
 
-			print('Replied to comment id: '+comments.id)
+			#print('Replied to comment id: '+comments.id)
 			comments_replied_to.append(comments.id)
 			with open("comments_replied_to.txt", "a") as f:
 				f.write(comments.id + '\n')
 
-	print('sleeping for 4 secs')
-	time.sleep(4)	
-
+	#print('sleeping for 4 secs')
+	#time.sleep(4)	
 
 r = bot_login()
 
 comments_replied_to = get_saved_comments()
-print(comments_replied_to)
+#print(comments_replied_to)
 
 while True:
+	#print('working...')
 	censor_comment(r, comments_replied_to)
+	#censor_comment(r, comments_replied_to)
