@@ -71,8 +71,13 @@ def censor_comment(r, comments_replied_to):
 					count += 1
 			censoredComment = ' '.join(wordsInCC)
 
-			comments.reply('I am a bot, *bleep*, *bloop*. I found ' + str(count) + ' swear word(s) in /u/' + str(parentname)
-			                + '\'s comment.\n\n' + '**Here is a censored version of their comment:**\n\n' + censoredComment)
+			comments.reply('I am a bot, *bleep*, *bloop*. I found ' + str(count) + ' swear word(s) in /u/' 
+							+ str(parentname) + '\'s comment.\n\n' + '**Here is a censored version of their comment:**' 
+			                + '\n\n________________________________________________\n\n' 
+			                + censoredComment
+			                + '\n\n________________________________________________\n\n' 
+							+ 'Go [here](https://www.reddit.com/user/theCensoringBot/comments/dwssjj/about_me/) to learn more about me: theCensoringBot'
+							)
 
 			#print('Replied to comment id: '+comments.id)
 			comments_replied_to.append(comments.id)
