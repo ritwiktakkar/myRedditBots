@@ -48,51 +48,65 @@ def get_saved_comments():
 		comments_replied_to = list(filter(None, comments_replied_to))
 	return comments_replied_to
 
+#comments.id not in comments_replied_to
+
 # function that retrieves the comment that summoned the bot
-def censor_comment(r, comments_replied_to):
+def censor_comment(r):
 	for comments in r.subreddit('botTesting123456').comments():
-		if 'censor-this!' in comments.body and comments.id not in comments_replied_to and comments.author != r.user.me():
-			parentcomment = comments.parent()
+		if comments.save():
+				print('already replied to this comment')
+		else:
 			parentname = comments.parent().author
-			uncensoredComment = parentcomment.body # this string is the uncensored comment that called the bot
-			#print("here is the uncensored comment:\n"+uncensoredComment) 
-			wordsInUC_unrev = uncensoredComment.split() # puts each word in UC into a list
-			wordsInUC_unrev2 = []
-			wordsInCC = []
-			for words in wordsInUC_unrev:
-				words = splitSpecialChars(words)
-				wordsInUC_unrev2.append(words)
-			for words in wordsInUC_unrev2:
-				words = findAndReplace(words)
-				wordsInCC.append(words)
-			count = 0
-			for words in wordsInCC:
-				if words == '(profanity)':
-					count += 1
-			censoredComment = ' '.join(wordsInCC)
+			childname = comments.author
+			if 'censor-this!' in comments.body and childname != r.user.me() and parentname != r.user.me():
+				#parentcomment = parent.body
+				#print(parentcomment)
+				parentcomment = comments.parent().body
+				childcomment = comments.body
+				#uncensoredComment = parentcomment.body # this string is the uncensored comment that called the bot
+				#print("here is the uncensored comment:\n"+uncensoredComment) 
+				wordsInUC_unrev = parentcomment.split() # puts each word in UC into a list
+				wordsInUC_unrev2 = []
+				wordsInCC = []
+				for words in wordsInUC_unrev:
+					words = splitSpecialChars(words)
+					wordsInUC_unrev2.append(words)
+				for words in wordsInUC_unrev2:
+					words = findAndReplace(words)
+					wordsInCC.append(words)
+				count = 0
+				for words in wordsInCC:
+					if words == '(profanity)':
+						count += 1
+				censoredComment = ' '.join(wordsInCC)
 
-			comments.reply('I am a bot, *bleep*, *bloop*. I found ' + str(count) + ' swear word(s) in /u/' 
-							+ str(parentname) + '\'s comment.\n\n' + '**Here is a censored version of their comment:**' 
-			                + '\n\n________________________________________________\n\n' 
-			                + censoredComment
-			                + '\n\n________________________________________________\n\n' 
-							+ 'Go [here](https://www.reddit.com/user/theCensoringBot/comments/dwssjj/about_me/) to learn more about me: theCensoringBot'
-							)
+				comments.reply('I am a bot, *bleep*, *bloop*. I found ' + str(count) + ' swear word(s) in /u/' 
+								+ str(parentname) + '\'s comment.\n\n' + '**Here is a censored version of their comment:**' 
+				                + '\n\n________________________________________________\n\n' 
+				                + censoredComment
+				                + '\n\n________________________________________________\n\n' 
+								+ 'Go [here](https://www.reddit.com/user/theCensoringBot/comments/dwssjj/about_me/) to learn more about me: theCensoringBot'
+								)
 
-			#print('Replied to comment id: '+comments.id)
-			comments_replied_to.append(comments.id)
-			with open("comments_replied_to.txt", "a") as f:
-				f.write(comments.id + '\n')
+				#print('Replied to comment id: '+comments.id)
+				
+				comments.save()
 
-	#print('sleeping for 4 secs')
-	#time.sleep(4)	
+				#comments_replied_to.append(comments.id)
+				#with open("comments_replied_to.txt", "a") as f:
+				#	f.write(comments.id + '\n')
+
+				#print('sleeping for 4 secs')
+				#time.sleep(4)
+				#comments.refresh()
+
 
 r = bot_login()
 
-comments_replied_to = get_saved_comments()
+#comments_replied_to = get_saved_comments()
 #print(comments_replied_to)
 
 while True:
 	#print('working...')
-	censor_comment(r, comments_replied_to)
+	censor_comment(r)
 	#censor_comment(r, comments_replied_to)
