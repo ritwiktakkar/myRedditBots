@@ -53,7 +53,7 @@ def censor_comment(reddit, comments_replied_to):
 	# read specific comments in particular subreddit based on some attribute
 	# if comment contains keyword, work my magic and reply with the censored comment
 	# add comment id of comment I replied to to my list so I don't reply again
-	# sleep for some time
+	# sleep for some time 
 	for submissions in reddit.subreddit('AskReddit').rising(limit = 100): 
 		submissions.comments.replace_more(limit = None)
 		for comments in submissions.comments.list():
