@@ -106,7 +106,7 @@ def censor_comment(reddit, comments_replied_to):
 
 
 					finally:	
-						sleep(45)
+						sleep(60)
 
 
 def main(): 
