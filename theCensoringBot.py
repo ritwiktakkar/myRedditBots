@@ -48,23 +48,21 @@ def get_saved_comments():
 		comments_replied_to = list(filter(None, comments_replied_to))
 	return comments_replied_to
 
-#comments.id not in comments_replied_to
+def sleep(seconds):
+	print('Sleeping for ' + str(seconds) + 'seconds')
+	time.sleep(seconds)
 
 # function that retrieves the comment that summoned the bot
-def censor_comment(r):
+def censor_comment(r, comments_replied_to):
 	for comments in r.subreddit('botTesting123456').comments():
-		if comments.save():
-				print('already replied to this comment')
+		if comments.id in comments_replied_to:
+				break
 		else:
 			parentname = comments.parent().author
 			childname = comments.author
 			if 'censor-this!' in comments.body and childname != r.user.me() and parentname != r.user.me():
-				#parentcomment = parent.body
-				#print(parentcomment)
 				parentcomment = comments.parent().body
 				childcomment = comments.body
-				#uncensoredComment = parentcomment.body # this string is the uncensored comment that called the bot
-				#print("here is the uncensored comment:\n"+uncensoredComment) 
 				wordsInUC_unrev = parentcomment.split() # puts each word in UC into a list
 				wordsInUC_unrev2 = []
 				wordsInCC = []
@@ -88,25 +86,16 @@ def censor_comment(r):
 								+ 'Go [here](https://www.reddit.com/user/theCensoringBot/comments/dwssjj/about_me/) to learn more about me: theCensoringBot'
 								)
 
-				#print('Replied to comment id: '+comments.id)
-				
-				comments.save()
+				comments_replied_to.append(comments.id)
+				with open("comments_replied_to.txt", "a") as f:
+					f.write(comments.id + '\n')
 
-				#comments_replied_to.append(comments.id)
-				#with open("comments_replied_to.txt", "a") as f:
-				#	f.write(comments.id + '\n')
-
-				#print('sleeping for 4 secs')
-				#time.sleep(4)
-				#comments.refresh()
+				sleep(4)
 
 
 r = bot_login()
 
-#comments_replied_to = get_saved_comments()
-#print(comments_replied_to)
+comments_replied_to = get_saved_comments()
 
 while True:
-	#print('working...')
-	censor_comment(r)
-	#censor_comment(r, comments_replied_to)
+	censor_comment(r, comments_replied_to)
