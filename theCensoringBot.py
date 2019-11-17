@@ -30,7 +30,7 @@ def split_special_chars(word):
 def find_and_replace(word):
 	# check word to see if profanity and replace if so
 	if word.lower() in profanity_list:
-		word = '(profanity)'
+		word = '*censored*'
 	return word
 
 
@@ -79,7 +79,7 @@ def censor_comment(reddit, comments_replied_to):
 						
 						count = 0
 						for words in words_in_cc:
-							if words == '(profanity)':
+							if words == '*censored*':
 								count += 1
 						
 						censored_comment = ' '.join(words_in_cc)
