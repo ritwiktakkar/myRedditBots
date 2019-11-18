@@ -54,7 +54,7 @@ def censor_comment(reddit, comments_replied_to):
 	# if comment contains keyword, work my magic and reply with the censored comment
 	# add comment id of comment I replied to to my list so I don't reply again
 	# sleep for some time 
-	for submissions in reddit.subreddit('botTesting123456').rising(limit = 50): 
+	for submissions in reddit.subreddit('AskReddit').rising(limit = 50): 
 		submissions.comments.replace_more(limit = None)
 		for comments in submissions.comments.list():
 			if comments.id not in comments_replied_to:
